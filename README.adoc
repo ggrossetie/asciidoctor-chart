@@ -1,0 +1,103 @@
+= :bar_chart: Asciidoctor Chart Extension
+:uri-asciidoctorjs: https://github.com/asciidoctor/asciidoctor.js
+:uri-chartist: https://gionkunz.github.io/chartist-js/
+
+ifdef::env-github[]
+image:https://img.shields.io/travis/Mogztter/asciidoctor-chart/master.svg[Travis build status, link=https://travis-ci.org/Mogztter/asciidoctor-chart]
+endif::[]
+
+An extension for {uri-asciidoctorjs}[Asciidoctor.js] to render charts.
+
+== Install
+
+=== Node.js
+
+Install the dependencies:
+
+    $ npm install asciidoctor.js asciidoctor-chart
+
+Create a file named `chart.js` with the following content and run it:
+
+```javascript
+const asciidoctor = require('asciidoctor.js')()
+const chart = require('asciidoctor-chart')
+
+const input = `
+[chart,line]
+....
+January,February,March
+28,48,40
+65,59,80
+....`
+
+chart.register(asciidoctor.Extensions)
+console.log(asciidoctor.convert(input)) // <1>
+
+const registry = asciidoctor.Extensions.create()
+chart.register(registry)
+console.log(asciidoctor.convert(input, {'extension_registry': registry})) // <2>
+```
+<1> Register the extension in the global registry
+<2> Register the extension in a dedicated registry
+
+You can also render a chart from a `csv` file:
+
+Create a file named `sales.csv` with the following content:
+
+```csv
+January,February,March
+28,48,40
+65,59,80
+```
+
+And use the following syntax:
+
+[source,adoc]
+----
+chart::sales.csv[bar,800,500]
+----
+
+=== Browser
+
+Install the dependencies:
+
+    $ npm install asciidoctor.js asciidoctor-chart
+
+Create a file named `chart.html` with following content and open it in your browser:
+
+```html
+<html>
+  <head>
+    <script src="node_modules/asciidoctor.js/dist/browser/asciidoctor.js"></script>
+    <script src="node_modules/asciidoctor-chart/dist/browser/asciidoctor-chart.js"></script>
+  </head>
+  <body>
+    <div id="content"></div>
+    <script>
+      var input = '[chart,line]\n' +
+        '....\n' +
+        'January,February,March\n' +
+        '28,48,40\n' +
+        '65,59,80\n' +
+        '....'
+
+      var asciidoctor = Asciidoctor()
+      var emoji = AsciidoctorEmoji
+
+      const registry = asciidoctor.Extensions.create()
+      emoji.register(registry)
+      var result = asciidoctor.convert(input, {'extension_registry': registry})
+      document.getElementById('content').innerHTML = result
+    </script>
+  </body>
+</html>
+```
+<1> Register the extension in the global registry
+<2> Register the extension in a dedicated registry
+
+== Usage
+
+
+== How ?
+
+This extension is using {uri-chartist}[Chartist.js] to render responsives charts.
