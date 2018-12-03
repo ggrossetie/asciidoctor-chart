@@ -97,6 +97,22 @@ Create a file named `chart.html` with following content and open it in your brow
 
 == Usage
 
+You can configure the type (`line` or `bar`), the height and the width in pixel:
+
+*Using positional attributes*
+
+```
+// in this order: type, width, height
+chart::sales.csv[bar,800,500]
+```
+
+*Using named attributes*
+
+```
+chart::sales.csv[height=500,width=800,type=line]
+```
+
+By default the chart will be a  600px * 400px line chart.
 
 == How ?
 
