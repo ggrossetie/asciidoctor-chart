@@ -40,6 +40,49 @@ console.log(asciidoctor.convert(input, {'extension_registry': registry})) // <2>
 <1> Register the extension in the global registry
 <2> Register the extension in a dedicated registry
 
+[IMPORTANT]
+====
+To effectively render the chart in your HTML page you will need to add the Chartist CSS and JavaScript:
+
+
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <link href="node_modules/chartist/dist/chartist.min.css" rel="stylesheet">
+  </head>
+  <body>
+    <!-- Site content goes here !-->
+    <script src="node_modules/chartist/dist/chartist.min.js"></script>
+  </body>
+</html>
+```
+
+You will also need to add this JavaScript (after `chartist.min.js`) to generate all the charts in your `<body>`:
+
+```js
+document.body.querySelectorAll('div.ct-chart').forEach((node) => {
+  const options = {
+    height: node.dataset['chartHeight'],
+    width: node.dataset['chartWidth'],
+    colors: node.dataset['chartColors'].split(',')
+  }
+  const dataset = Object.assign({}, node.dataset)
+  const series = Object.values(Object.keys(dataset)
+    .filter(key => key.startsWith('chartSeries-'))
+    .reduce((obj, key) => {
+      obj[key] = dataset[key]
+      return obj
+    }, {})).map(value => value.split(','))
+  const data = {
+    labels: node.dataset['chartLabels'].split(','),
+    series: series
+  }
+  Chartist[node.dataset['chartType']](node, data, options)
+})
+```
+====
+
 You can also render a chart from a `csv` file:
 
 Create a file named `sales.csv` with the following content:
@@ -70,6 +113,7 @@ Create a file named `chart.html` with following content and open it in your brow
   <head>
     <script src="node_modules/asciidoctor.js/dist/browser/asciidoctor.js"></script>
     <script src="node_modules/asciidoctor-chart/dist/browser/asciidoctor-chart.js"></script>
+    <link href="node_modules/chartist/dist/chartist.min.css" rel="stylesheet">
   </head>
   <body>
     <div id="content"></div>
@@ -82,12 +126,34 @@ Create a file named `chart.html` with following content and open it in your brow
         '....'
 
       var asciidoctor = Asciidoctor()
-      var emoji = AsciidoctorEmoji
+      var chart = AsciidoctorChart
 
       const registry = asciidoctor.Extensions.create()
-      emoji.register(registry)
+      chart.register(registry)
       var result = asciidoctor.convert(input, {'extension_registry': registry})
       document.getElementById('content').innerHTML = result
+    </script>
+    <script src="node_modules/chartist/dist/chartist.min.js"></script>
+    <script>
+      document.body.querySelectorAll('div.ct-chart').forEach((node) => {
+        const options = {
+          height: node.dataset['chartHeight'],
+          width: node.dataset['chartWidth'],
+          colors: node.dataset['chartColors'].split(',')
+        }
+        const dataset = Object.assign({}, node.dataset)
+        const series = Object.values(Object.keys(dataset)
+          .filter(key => key.startsWith('chartSeries-'))
+          .reduce((obj, key) => {
+            obj[key] = dataset[key]
+            return obj
+          }, {})).map(value => value.split(','))
+        const data = {
+          labels: node.dataset['chartLabels'].split(','),
+          series: series
+        }
+        Chartist[node.dataset['chartType']](node, data, options)
+      })
     </script>
   </body>
 </html>
