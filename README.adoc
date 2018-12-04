@@ -106,7 +106,7 @@ Install the dependencies:
 
     $ npm install asciidoctor.js asciidoctor-chart
 
-Create a file named `chart.html` with following content and open it in your browser:
+Create a file named `chart.html` with the following content and open it in your browser:
 
 ```html
 <html>
