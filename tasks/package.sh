@@ -6,6 +6,6 @@ set -e
 npm run dist
 mkdir bin
 cd dist/
-zip -r ../bin/asciidoctor-emoji.dist.zip .
-tar -zcvf ../bin/asciidoctor-emoji.dist.tar.gz .
+zip -r ../bin/asciidoctor-chart.dist.zip .
+tar -zcvf ../bin/asciidoctor-chart.dist.tar.gz .
 cd -
