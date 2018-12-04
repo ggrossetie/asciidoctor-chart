@@ -6,7 +6,7 @@
   "files": [
     "dist",
     "LICENSE",
-    "README.adoc"
+    "README.md"
   ],
   "scripts": {
     "test": "mocha test/**.js",
@@ -14,9 +14,7 @@
     "clean": "rm -rf dist/*",
     "dist": "npm run clean && npm run dist:browser && npm run dist:node",
     "dist:browser": "mkdir -p dist/browser && browserify src/asciidoctor-chart.js --standalone AsciidoctorChart -o dist/browser/asciidoctor-chart.js",
-    "dist:node": "mkdir -p dist/node && cp src/**.js dist/node/",
-    "prepublishOnly": "node tasks/prepublish.js",
-    "postpublish": "node tasks/postpublish.js"
+    "dist:node": "mkdir -p dist/node && cp src/**.js dist/node/"
   },
   "dependencies": {
     "chartist": "0.11.0"

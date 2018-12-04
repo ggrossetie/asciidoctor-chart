@@ -1,16 +1,12 @@
-= :bar_chart: Asciidoctor Chart Extension
-:uri-asciidoctorjs: https://github.com/asciidoctor/asciidoctor.js
-:uri-chartist: https://gionkunz.github.io/chartist-js/
+# :bar_chart: Asciidoctor Chart Extension
 
-ifdef::env-github[]
-image:https://img.shields.io/travis/Mogztter/asciidoctor-chart/master.svg[Travis build status, link=https://travis-ci.org/Mogztter/asciidoctor-chart]
-endif::[]
+![Travis build status](https://img.shields.io/travis/Mogztter/asciidoctor-chart/master.svg)
 
-An extension for {uri-asciidoctorjs}[Asciidoctor.js] to render charts.
+An extension for [Asciidoctor.js](https://github.com/asciidoctor/asciidoctor.js) to render charts.
 
-== Install
+## Install
 
-=== Node.js
+### Node.js
 
 Install the dependencies:
 
@@ -18,7 +14,7 @@ Install the dependencies:
 
 Create a file named `chart.js` with the following content and run it:
 
-```javascript
+```js
 const asciidoctor = require('asciidoctor.js')()
 const chart = require('asciidoctor-chart')
 
@@ -40,8 +36,8 @@ console.log(asciidoctor.convert(input, {'extension_registry': registry})) // <2>
 <1> Register the extension in the global registry
 <2> Register the extension in a dedicated registry
 
-[IMPORTANT]
-====
+**IMPORTANT**
+
 To effectively render the chart in your HTML page you will need to add the Chartist CSS and JavaScript:
 
 
@@ -81,9 +77,7 @@ document.body.querySelectorAll('div.ct-chart').forEach((node) => {
   Chartist[node.dataset['chartType']](node, data, options)
 })
 ```
-====
-
-You can also render a chart from a `csv` file:
+You can also render a chart from a `csv` file.
 
 Create a file named `sales.csv` with the following content:
 
@@ -95,12 +89,11 @@ January,February,March
 
 And use the following syntax:
 
-[source,adoc]
-----
+```adoc
 chart::sales.csv[bar,800,500]
-----
+```
 
-=== Browser
+### Browser
 
 Install the dependencies:
 
@@ -161,7 +154,7 @@ Create a file named `chart.html` with the following content and open it in your 
 <1> Register the extension in the global registry
 <2> Register the extension in a dedicated registry
 
-== Usage
+## Usage
 
 You can configure the type (`line` or `bar`), the height and the width in pixel:
 
@@ -180,6 +173,6 @@ chart::sales.csv[height=500,width=800,type=line]
 
 By default the chart will be a  600px * 400px line chart.
 
-== How ?
+## How ?
 
-This extension is using {uri-chartist}[Chartist.js] to render responsives charts.
+This extension is using [Chartist.js](https://gionkunz.github.io/chartist-js/) to render responsives charts.
