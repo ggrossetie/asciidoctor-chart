@@ -5,9 +5,7 @@
   "main": "dist/node/asciidoctor-chart.js",
   "browser": "dist/browser/asciidoctor-chart.js",
   "files": [
-    "dist",
-    "LICENSE",
-    "README.md"
+    "dist"
   ],
   "scripts": {
     "test": "mocha test/**.js",
