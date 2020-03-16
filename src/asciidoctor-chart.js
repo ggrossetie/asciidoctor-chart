@@ -44,7 +44,7 @@ const chartBlockMacro = function () {
 
   self.process(function (parent, target, attrs) {
     const filePath = parent.normalizeAssetPath(target, 'target')
-    const fileContent = parent.readAsset(filePath, { 'warn_on_failure': true, 'normalize': true })
+    const fileContent = parent.readAsset(filePath, { warn_on_failure: true, normalize: true })
     if (typeof fileContent === 'string') {
       const lines = fileContent.split('\n')
       const labels = lines[0].split(',')
