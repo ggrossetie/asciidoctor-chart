@@ -20,7 +20,7 @@
   },
   "devDependencies": {
     "asciidoctor.js": "1.5.9",
-    "browserify": "16.2.3",
+    "browserify": "16.5.0",
     "chai": "4.2.0",
     "dirty-chai": "2.0.1",
     "mocha": "7.1.0",
