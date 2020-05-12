@@ -24,7 +24,7 @@
     "chai": "4.2.0",
     "dirty-chai": "2.0.1",
     "mocha": "7.1.2",
-    "standard": "14.3.3"
+    "standard": "14.3.4"
   },
   "peerDependencies": {
     "asciidoctor.js": "1.5.9"
