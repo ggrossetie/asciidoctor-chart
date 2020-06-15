@@ -85,7 +85,7 @@ describe('Conversion', () => {
     })
   })
 
-  const delimeters = ["....", "----"]
+  const delimeters = ['....', '----']
   delimeters.forEach(delimeter => {
     describe(`Block with delimeter ${delimeter}`, () => {
       const chartBlockInput = attrs => `[${['chart'].concat(attrs || []).join(',')}]
