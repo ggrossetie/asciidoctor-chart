@@ -84,68 +84,72 @@ describe('Conversion', () => {
       expect(html).to.contain(expectedResult({ type: 'Bar', width: 500, height: 700 }))
     })
   })
-  describe('Block', () => {
-    const chartBlockInput = attrs => `[${['chart'].concat(attrs || []).join(',')}]
-....
+
+  const delimeters = ["....", "----"]
+  delimeters.forEach(delimeter => {
+    describe(`Block with delimeter ${delimeter}`, () => {
+      const chartBlockInput = attrs => `[${['chart'].concat(attrs || []).join(',')}]
+${delimeter}
 Java,JavaScript,Python
 1.265,1.042,1.024
 1.118,1.004,1.279
-....`
-    const expectedResult = opts => `<div class="ct-chart" data-chart-height="${opts.height || 400}" data-chart-width="${opts.width || 600}" data-chart-type="${opts.type || 'Line'}" data-chart-colors="#72B3CC,#8EB33B" data-chart-labels="Java,JavaScript,Python" data-chart-series-0="1.265,1.042,1.024" data-chart-series-1="1.118,1.004,1.279"></div>`
-    describe('When extension is not registered', () => {
-      it('should not convert a block chart', () => {
-        const input = chartBlockInput()
-        const html = asciidoctor.convert(input)
-        expect(html).to.contain(`<pre>Java,JavaScript,Python
+${delimeter}`
+      const expectedResult = opts => `<div class="ct-chart" data-chart-height="${opts.height || 400}" data-chart-width="${opts.width || 600}" data-chart-type="${opts.type || 'Line'}" data-chart-colors="#72B3CC,#8EB33B" data-chart-labels="Java,JavaScript,Python" data-chart-series-0="1.265,1.042,1.024" data-chart-series-1="1.118,1.004,1.279"></div>`
+      describe('When extension is not registered', () => {
+        it('should not convert a block chart', () => {
+          const input = chartBlockInput()
+          const html = asciidoctor.convert(input)
+          expect(html).to.contain(`<pre>Java,JavaScript,Python
 1.265,1.042,1.024
 1.118,1.004,1.279</pre>`)
+        })
       })
-    })
-    describe('When extension is registered', () => {
-      it('should convert a chart', () => {
-        const input = chartBlockInput()
+      describe('When extension is registered', () => {
+        it('should convert a chart', () => {
+          const input = chartBlockInput()
+          const registry = asciidoctor.Extensions.create()
+          asciidoctorChart.register(registry)
+          const html = asciidoctor.convert(input, { extension_registry: registry })
+          expect(html).to.contain(expectedResult({}))
+        })
+        it('should not convert a chart if the series are empty', () => {
+          const input = `[chart]
+${delimeter}
+${delimeter}`
+          const registry = asciidoctor.Extensions.create()
+          asciidoctorChart.register(registry)
+          const html = asciidoctor.convert(input, { extension_registry: registry })
+          expect(html).to.contain('[chart is empty]')
+        })
+      })
+      it('should convert a chart into a bar chart', () => {
+        const input = chartBlockInput(['bar'])
         const registry = asciidoctor.Extensions.create()
         asciidoctorChart.register(registry)
         const html = asciidoctor.convert(input, { extension_registry: registry })
-        expect(html).to.contain(expectedResult({}))
+        expect(html).to.contain(expectedResult({ type: 'Bar' }))
       })
-      it('should not convert a chart if the series are empty', () => {
-        const input = `[chart]
-....
-....`
+      it('should convert a chart into a line chart with a width of 500px', () => {
+        const input = chartBlockInput(['width=500'])
         const registry = asciidoctor.Extensions.create()
         asciidoctorChart.register(registry)
         const html = asciidoctor.convert(input, { extension_registry: registry })
-        expect(html).to.contain('[chart is empty]')
+        expect(html).to.contain(expectedResult({ width: '500' }))
       })
-    })
-    it('should convert a chart into a bar chart', () => {
-      const input = chartBlockInput(['bar'])
-      const registry = asciidoctor.Extensions.create()
-      asciidoctorChart.register(registry)
-      const html = asciidoctor.convert(input, { extension_registry: registry })
-      expect(html).to.contain(expectedResult({ type: 'Bar' }))
-    })
-    it('should convert a chart into a line chart with a width of 500px', () => {
-      const input = chartBlockInput(['width=500'])
-      const registry = asciidoctor.Extensions.create()
-      asciidoctorChart.register(registry)
-      const html = asciidoctor.convert(input, { extension_registry: registry })
-      expect(html).to.contain(expectedResult({ width: '500' }))
-    })
-    it('should convert a chart into a line chart with an height of 700px', () => {
-      const input = chartBlockInput(['height=700'])
-      const registry = asciidoctor.Extensions.create()
-      asciidoctorChart.register(registry)
-      const html = asciidoctor.convert(input, { extension_registry: registry })
-      expect(html).to.contain(expectedResult({ height: '700' }))
-    })
-    it('should convert a chart into a bar chart with a width of 500px and a height of 700px', () => {
-      const input = chartBlockInput(['bar', '500', '700'])
-      const registry = asciidoctor.Extensions.create()
-      asciidoctorChart.register(registry)
-      const html = asciidoctor.convert(input, { extension_registry: registry })
-      expect(html).to.contain(expectedResult({ type: 'Bar', width: 500, height: 700 }))
+      it('should convert a chart into a line chart with an height of 700px', () => {
+        const input = chartBlockInput(['height=700'])
+        const registry = asciidoctor.Extensions.create()
+        asciidoctorChart.register(registry)
+        const html = asciidoctor.convert(input, { extension_registry: registry })
+        expect(html).to.contain(expectedResult({ height: '700' }))
+      })
+      it('should convert a chart into a bar chart with a width of 500px and a height of 700px', () => {
+        const input = chartBlockInput(['bar', '500', '700'])
+        const registry = asciidoctor.Extensions.create()
+        asciidoctorChart.register(registry)
+        const html = asciidoctor.convert(input, { extension_registry: registry })
+        expect(html).to.contain(expectedResult({ type: 'Bar', width: 500, height: 700 }))
+      })
     })
   })
 })
