@@ -85,15 +85,15 @@ describe('Conversion', () => {
     })
   })
 
-  const delimeters = ['....', '----']
-  delimeters.forEach(delimeter => {
-    describe(`Block with delimeter ${delimeter}`, () => {
+  const delimiters = ['....', '----']
+  delimiters.forEach(delimiter => {
+    describe(`Block with delimiter ${delimiter}`, () => {
       const chartBlockInput = attrs => `[${['chart'].concat(attrs || []).join(',')}]
-${delimeter}
+${delimiter}
 Java,JavaScript,Python
 1.265,1.042,1.024
 1.118,1.004,1.279
-${delimeter}`
+${delimiter}`
       const expectedResult = opts => `<div class="ct-chart" data-chart-height="${opts.height || 400}" data-chart-width="${opts.width || 600}" data-chart-type="${opts.type || 'Line'}" data-chart-colors="#72B3CC,#8EB33B" data-chart-labels="Java,JavaScript,Python" data-chart-series-0="1.265,1.042,1.024" data-chart-series-1="1.118,1.004,1.279"></div>`
       describe('When extension is not registered', () => {
         it('should not convert a block chart', () => {
@@ -114,8 +114,8 @@ ${delimeter}`
         })
         it('should not convert a chart if the series are empty', () => {
           const input = `[chart]
-${delimeter}
-${delimeter}`
+${delimiter}
+${delimiter}`
           const registry = asciidoctor.Extensions.create()
           asciidoctorChart.register(registry)
           const html = asciidoctor.convert(input, { extension_registry: registry })
