@@ -1,6 +1,6 @@
 {
   "name": "asciidoctor-chart",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "Asciidoctor Chart extension",
   "main": "dist/node/asciidoctor-chart.js",
   "browser": "dist/browser/asciidoctor-chart.js",
