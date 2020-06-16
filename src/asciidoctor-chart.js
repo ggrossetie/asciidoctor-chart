@@ -63,7 +63,7 @@ const chartBlock = function () {
   self.named('chart')
   self.positionalAttributes(['type', 'width', 'height'])
   self.$content_model('raw')
-  self.onContext('literal')
+  self.onContext(['listing', 'literal'])
 
   self.process(function (parent, reader, attrs) {
     const lines = reader.getLines()
